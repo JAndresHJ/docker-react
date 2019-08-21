@@ -1,0 +1,15 @@
+# Superuser permission to execute this build
+sudo: required
+
+# Travis will install a copy of docker into out little running container
+services:
+  - docker
+
+# Series of steps needed to occuer before we start to either
+# deploy the project or before to start to run the tests
+before_install:
+  - docker build -t docker-react -f Dockerfile.dev .
+
+# Contains all the different commands that need to be executed to actually run our test suite
+script:
+  - docker run -e CI=true docker-react npm run test
